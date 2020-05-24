@@ -23,7 +23,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    const url = "http://localhost:4000/parks";
+    const url = "http://localhost:5000/parks";
     const response = await axios.get(url);
     return this.setState({ feeds: response.data });
   }
