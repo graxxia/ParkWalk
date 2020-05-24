@@ -6,7 +6,7 @@ import history from "../history";
 import Navigation from "./Navigation";
 import Parallax from "./Parallax";
 import Feed from "./Feed";
-import Map from "./Map";
+import Parks from "./Parks";
 
 import Contact from "./Contact";
 import About from "./About";
@@ -54,7 +54,7 @@ class App extends Component {
             </div>
 
             <Switch>
-              <Route path="/map" component={Map} />
+              <Route path="/parks" component={Parks} />
               <Route path="/contact" component={Contact} />
               <Route path="/about" component={About} />
               <Route
