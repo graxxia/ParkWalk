@@ -126,10 +126,10 @@ const MapboxGLMap = () => {
 
   return (
     <div>
-      <h1>Map</h1>
-      <Maps></Maps>
+      <div ref={(el) => (mapContainer.current = el)} style={styles} />
+      <div></div>
     </div>
   );
 };
 
-export default Map;
+export default MapboxGLMap;
