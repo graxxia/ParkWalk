@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { distance } from "../utils/mapUtil";
+import { sortGeoJSON } from "../utils/mapUtil";
 
 const styles = {
   display: "flex",
@@ -25,7 +25,7 @@ const MapboxGLMap = () => {
       });
 
       let markers = [];
-      let position = {};
+
       // get current location
       map.addControl(
         new mapboxgl.GeolocateControl({
@@ -46,36 +46,16 @@ const MapboxGLMap = () => {
         //
 
         let getParks = async (lat, lng, dist) => {
-          let closest = {
-            lat: 0,
-            lng: 0,
-            distance: 100,
-          };
-          const fetchParks = await fetch("http://localhost:5000/parks");
+          const fetchParks = await fetch("http://localhost:5000/map");
           const geoJSON = await fetchParks.json();
-
-          await geoJSON.forEach((el) => {
-            let d = distance(
-              position.lat,
-              position.lng,
-              el.geometry.coordinates[1],
-              el.geometry.coordinates[0],
-              "K"
-            );
-            if (d < closest.distance) {
-              closest = {
-                lat: el.geometry.coordinates[1],
-                lng: el.geometry.coordinates[0],
-                distance: d,
-              };
-            }
-          });
-
-          console.log(closest);
+          sortGeoJSON(geoJSON);
 
           markers.push(
             new mapboxgl.Marker()
-              .setLngLat([closest.lng, closest.lat])
+              .setLngLat([
+                geoJSON[2].geometry.coordinates[0],
+                geoJSON[2].geometry.coordinates[1],
+              ])
               .addTo(map)
           );
         };
@@ -87,7 +67,6 @@ const MapboxGLMap = () => {
         };
 
         let setPosition = (lat, lng, acc) => {
-          position = { lat: lat, lng: lng };
           map.setCenter([lng, lat]);
           //map.setZoom(zoom);
           markers.push(new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map));

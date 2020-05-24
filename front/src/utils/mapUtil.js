@@ -25,23 +25,27 @@ export const distance = (lat1, lon1, lat2, lon2, unit) => {
   }
 };
 
-/*
-export const sortGeoJSON = () => {
-  addDistance(geoJSON);
-  const arr = Object.keys(geoJSON).forEach((key) => [key, geoJSON[key]]);
-  console.log(arr);
-  return arr;
+export const sortGeoJSON = async (geoJSON) => {
+  await addDistance(await geoJSON);
+  const arr = [];
+  for (let i in geoJSON) {
+    arr.push([i, geoJSON[i]]);
+  }
+  arr.sort((a, b) =>
+    a[1].properties.distance > b[1].properties.distance ? 1 : -1
+  );
+  return JSON.stringify(arr);
 };
 
-const addDistance = async () => {
-  let position = getLocation();
-  console.log(await geoJSON);
-  console.log((await geoJSON).json());
-  await geoJSON.json().forEach(async (el) => {
+const addDistance = async (geoJSON) => {
+  let position = await getLocation();
+  console.log(position);
+  await geoJSON.forEach(async (el) => {
     //
+
     let d = distance(
-      position.lat,
-      position.lng,
+      position.latitude,
+      position.longitude,
 
       el.geometry.coordinates[1],
       el.geometry.coordinates[0],
@@ -58,4 +62,3 @@ const getLocation = async () => {
   let data = await res.json();
   return data;
 };
-*/
