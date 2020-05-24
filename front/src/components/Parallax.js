@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import MainImage from "../components/images/img1.jpg";
-import SecondImage from "../components/images/img2.jpg";
+import MainImage from "../images/img1.jpg";
+import SecondImage from "../images/img2.jpg";
 import M from "materialize-css";
 
 class Parallax extends Component {

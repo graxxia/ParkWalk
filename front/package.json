@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "mapbox": "^1.0.0-beta10",
-    "mapbox-gl": "^1.10.1"
+    "mapbox-gl": "^1.10.1",
     "babel-cli": "^6.26.0"
   }
 }

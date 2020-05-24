@@ -3,16 +3,16 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import { useAuth0 } from "../react-auth0-spa";
 import history from "../history";
-import Navigation from "./Navigation";
-import Parallax from "./Parallax";
-import Feed from "./Feed";
-import Parks from "./Parks";
+import Navigation from "../components/Navigation";
+import Parallax from "../components/Parallax";
+import Feed from "../components/Feed";
+import Parks from "./Park";
 
 import Contact from "./Contact";
 import About from "./About";
-import Loading from "./Loading";
+import Loading from "../components/Loading";
 import "materialize-css";
-import LogoParkWalk from "../components/logo.svg";
+import LogoParkWalk from "../images/logo.svg";
 
 class App extends Component {
   constructor(props) {
