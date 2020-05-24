@@ -6,6 +6,8 @@ import history from "../history";
 import Navigation from "./Navigation";
 import Parallax from "./Parallax";
 import Feed from "./Feed";
+import Map from "./Map";
+
 import Contact from "./Contact";
 import About from "./About";
 import Loading from "./Loading";
@@ -23,10 +25,11 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    const url = "http://localhost:5000/parks";
+    const url = "http://localhost:5000/parksOttawa";
     const response = await axios.get(url);
     return this.setState({ feeds: response.data });
   }
+
   render() {
     const { loading } = useAuth0;
 
@@ -36,37 +39,43 @@ class App extends Component {
     return (
       <React.StrictMode>
         <Router history={history}>
-          <body class="grey-text text-darken-2">
-            <nav class="white" role="navigation">
-              <Navigation />
-            </nav>
-            <div class="container">
-              <div class="row center">
-                <img
-                  src={LogoParkWalk}
-                  class="brand-logo black-text"
-                  width="300
+          <nav className="white" role="navigation">
+            <Navigation />
+          </nav>
+          <div className="container">
+            <div className="row center">
+              <img
+                src={LogoParkWalk}
+                className="brand-logo black-text"
+                width="300
                   px"
-                  alt="un lugar en Ottawa"
-                ></img>
-              </div>
+                alt="un lugar en Ottawa"
+              ></img>
+            </div>
 
-              <Parallax title={this.state.parallaxTitle} />
-              <Switch>
-                <Route path="/contact" component={Contact} />
-                <Route path="/about" component={About} />
-                <Route
-                  exact
-                  path="/"
-                  render={(props) => <Feed feeds={this.state.feeds} />}
-                />
-              </Switch>
-
-              <div class="footer">
+            <Switch>
+              <Route path="/map" component={Map} />
+              <Route path="/contact" component={Contact} />
+              <Route path="/about" component={About} />
+              <Route
+                exact
+                path="/"
+                render={(props) => (
+                  <React.StrictMode>
+                    {" "}
+                    <Parallax title={this.state.parallaxTitle} />
+                    <Feed feeds={this.state.feeds} />
+                  </React.StrictMode>
+                )}
+              />
+              />
+            </Switch>
+            <div className="container">
+              <div className="footer">
                 <p>&copy; {this.state.name}</p>
               </div>
             </div>
-          </body>
+          </div>
         </Router>
       </React.StrictMode>
     );

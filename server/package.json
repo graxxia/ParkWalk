@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nodemon app.js"
+    "start": "nodemon ./server.js --exec babel-node -e js"
   },
   "repository": {
     "type": "git",
@@ -15,13 +15,20 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-jwt": "^5.3.3",
     "hbs": "^4.1.1",
+    "jwks-rsa": "^1.8.0",
     "mariadb": "^2.3.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
     "nodemon": "^2.0.4"
   }
 }
