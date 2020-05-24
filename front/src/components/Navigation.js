@@ -7,13 +7,13 @@ import "materialize-css";
 const Navigation = (props) => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   return (
-    <div class="">
-      <div class="nav-wrapper container">
+    <div className="">
+      <div className="nav-wrapper container">
         <a href="/" className="brand-logo  light-green-text text-darken-3">
           <i className="material-icons">home</i>
         </a>
         {!isAuthenticated && (
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <ul id="nav-mobile" className="right hide-on-med-and-down">
             <button
               className="waves-effect waves-light light-green darken-3 btn-small"
               onClick={() => loginWithRedirect({})}

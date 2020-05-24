@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
-import { useAuth0 } from "../react-auth0-spa";
-import history from "../history";
-import Navigation from "./Navigation";
-import Parallax from "./Parallax";
-import Feed from "./Feed";
+import { useAuth0 } from "../../react-auth0-spa";
+import history from "../../history";
+import Navigation from "../Navigation";
+import Parallax from "../Parallax";
+import Feed from "../Feed";
 import Contact from "./Contact";
 import About from "./About";
-import Loading from "./Loading";
+import Park from "./Park";
+import Loading from "../Loading";
 import "materialize-css";
-import LogoParkWalk from "../components/logo.svg";
+import LogoParkWalk from "../../components/logo.svg";
 
 class App extends Component {
   constructor(props) {
@@ -36,15 +37,15 @@ class App extends Component {
     return (
       <React.StrictMode>
         <Router history={history}>
-          <body class="grey-text text-darken-2">
-            <nav class="white" role="navigation">
+          <div className="grey-text text-darken-2">
+            <nav className="white" role="navigation">
               <Navigation />
             </nav>
-            <div class="container">
-              <div class="row center">
+            <div className="container">
+              <div className="row center">
                 <img
                   src={LogoParkWalk}
-                  class="brand-logo black-text"
+                  className="brand-logo black-text"
                   width="300
                   px"
                   alt="un lugar en Ottawa"
@@ -55,6 +56,7 @@ class App extends Component {
               <Switch>
                 <Route path="/contact" component={Contact} />
                 <Route path="/about" component={About} />
+                <Route path="/park" component={Park} />
                 <Route
                   exact
                   path="/"
@@ -62,11 +64,11 @@ class App extends Component {
                 />
               </Switch>
 
-              <div class="footer">
+              <div className="footer">
                 <p>&copy; {this.state.name}</p>
               </div>
             </div>
-          </body>
+          </div>
         </Router>
       </React.StrictMode>
     );

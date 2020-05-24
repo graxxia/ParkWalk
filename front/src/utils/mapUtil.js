@@ -1,8 +1,3 @@
-const fetchParks = async () => {
-  return await fetch("http://localhost:5000/parks");
-};
-
-export const geoJSON = fetchParks();
 export const distance = (lat1, lon1, lat2, lon2, unit) => {
   if (lat1 === lat2 && lon1 === lon2) {
     return 0;
@@ -30,6 +25,7 @@ export const distance = (lat1, lon1, lat2, lon2, unit) => {
   }
 };
 
+/*
 export const sortGeoJSON = () => {
   addDistance(geoJSON);
   const arr = Object.keys(geoJSON).forEach((key) => [key, geoJSON[key]]);
@@ -37,11 +33,12 @@ export const sortGeoJSON = () => {
   return arr;
 };
 
-const addDistance = async (...json) => {
+const addDistance = async () => {
   let position = getLocation();
-  json.forEach(async (el) => {
+  console.log(await geoJSON);
+  console.log((await geoJSON).json());
+  await geoJSON.json().forEach(async (el) => {
     //
-    console.log(await el);
     let d = distance(
       position.lat,
       position.lng,
@@ -61,3 +58,4 @@ const getLocation = async () => {
   let data = await res.json();
   return data;
 };
+*/

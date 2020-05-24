@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { distance, geoJSON, sortGeoJSON } from "../utils/mapUtil";
+import { distance } from "../utils/mapUtil";
 
 const styles = {
   display: "flex",
@@ -51,7 +51,10 @@ const MapboxGLMap = () => {
             lng: 0,
             distance: 100,
           };
-          geoJSON.forEach((el) => {
+          const fetchParks = await fetch("http://localhost:5000/parks");
+          const geoJSON = await fetchParks.json();
+
+          await geoJSON.forEach((el) => {
             let d = distance(
               position.lat,
               position.lng,
@@ -120,7 +123,7 @@ const MapboxGLMap = () => {
   }, [map]);
 
   // from: https://www.geodatasource.com/developers/javascript
-  sortGeoJSON();
+
   return (
     <div>
       <div ref={(el) => (mapContainer.current = el)} style={styles} />
