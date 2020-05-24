@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth0 } from "../react-auth0-spa";
 import "../css/style.css";
 import "materialize-css";
+import "../css/style.css";
 
 const Navigation = (props) => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
@@ -10,7 +11,7 @@ const Navigation = (props) => {
     <div className="">
       <div className="nav-wrapper container">
         <a href="/" className="brand-logo  light-green-text text-darken-3">
-          <i className="material-icons">home</i>
+          <i className="material-icons md-48">home</i>
         </a>
         {!isAuthenticated && (
           <ul id="nav-mobile" className="right hide-on-med-and-down">
@@ -27,6 +28,9 @@ const Navigation = (props) => {
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li>
               <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/map">Map</Link>
             </li>
             <li>
               <Link to="/about">About</Link>

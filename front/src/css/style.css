@@ -5,12 +5,16 @@
  *
  * Made By MaterializeCSS.com
  */
-
+body {
+  color: #616161;
+}
 nav ul a,
 nav .brand-logo {
   color: #444;
 }
-
+a {
+  color: #689f38;
+}
 .material-icons.md-48 {
   font-size: 48px;
 }

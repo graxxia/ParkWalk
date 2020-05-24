@@ -22,13 +22,16 @@ class Parallax extends Component {
             <img src={MainImage} alt="es un lugar en Ottawa" />
           </div>
         </div>
-        <div className="section white">
-          <div className="row container">
-            <h2 className="header">{this.props.title}</h2>
-            <p className="grey-text text-darken-3 lighten-3">
-              The City's parks are a great outdoor alternative to being inside.
-              Parks are open faily from 6 am to 11pm, unless otherwise posted.
-            </p>
+        <div className="container">
+          <div className="section white">
+            <div className="row container">
+              <h2 className="header">{this.props.title}</h2>
+              <p className="grey-text text-darken-3 lighten-3">
+                The City's parks are a great outdoor alternative to being
+                inside. Parks are open faily from 6 am to 11pm, unless otherwise
+                posted.
+              </p>
+            </div>
           </div>
         </div>
         <div

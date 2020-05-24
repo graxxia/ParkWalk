@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { distance } from "../utils/mapUtil";
+import { distance, geoJSON, sortGeoJSON } from "../utils/mapUtil";
 
 const styles = {
   display: "flex",
@@ -15,7 +15,7 @@ const MapboxGLMap = () => {
 
   useEffect(() => {
     mapboxgl.accessToken =
-      "pk.eyJ1IjoicGF0ZGV2IiwiYSI6ImNrYTJpb3c0eDAwM3MzZHBpOXhsZTI2bDIifQ.b5T5tOYhWSEj_gJ9gzIDeA";
+      "pk.eyJ1IjoiZ3JheGlhIiwiYSI6ImNrYTJpeGNzNTA3ODQzZW1zMTdqeGZzanQifQ.xPivnMvLj87SfYnxR8Yf1Q";
     const initializeMap = ({ setMap, mapContainer }) => {
       const map = new mapboxgl.Map({
         container: mapContainer.current,
@@ -51,10 +51,7 @@ const MapboxGLMap = () => {
             lng: 0,
             distance: 100,
           };
-          const fetchParks = await fetch("http://localhost:5000/parks");
-          const geoJSON = await fetchParks.json();
-
-          await geoJSON.forEach((el) => {
+          (await geoJSON).json.forEach((el) => {
             let d = distance(
               position.lat,
               position.lng,
@@ -81,7 +78,7 @@ const MapboxGLMap = () => {
         };
 
         let backupGeoLocate = async () => {
-          let res = await fetch("http://localhost:5000/geo");
+          let res = await fetch("http://localhost:5000/map/");
           let data = await res.json();
           setPosition(data.latitude, data.longitude, 100);
         };
@@ -123,13 +120,13 @@ const MapboxGLMap = () => {
   }, [map]);
 
   // from: https://www.geodatasource.com/developers/javascript
-
+  sortGeoJSON();
   return (
     <div>
-      <h1>Map</h1>
-      <Maps></Maps>
+      <div ref={(el) => (mapContainer.current = el)} style={styles} />
+      <div></div>
     </div>
   );
 };
 
-export default Map;
+export default MapboxGLMap;
