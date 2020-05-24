@@ -3,10 +3,11 @@ import Map from "../components/Map";
 
 const Park = (props) => {
   return (
-    <div>
-      <h1>Parks</h1>
-
-      <Map />
+    <div className="container">
+      <h1 className="header center ">Parks</h1>
+      <div className="container">
+        <Map />
+      </div>
     </div>
   );
 };

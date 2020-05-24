@@ -71,7 +71,7 @@ class App extends Component {
               />
             </Switch>
             <div className="container">
-              <div className="footer">
+              <div className="footer header center">
                 <p>&copy; {this.state.name}</p>
               </div>
             </div>

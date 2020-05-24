@@ -4,7 +4,6 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { distance } from "../utils/mapUtil";
 
 const styles = {
-  display: "flex",
   width: "40vw",
   height: "40vh",
 };
@@ -51,7 +50,7 @@ const MapboxGLMap = () => {
             lng: 0,
             distance: 100,
           };
-          const fetchParks = await fetch("http://localhost:5000/parks");
+          const fetchParks = await fetch("http://localhost:5000/map");
           const geoJSON = await fetchParks.json();
 
           await geoJSON.forEach((el) => {
