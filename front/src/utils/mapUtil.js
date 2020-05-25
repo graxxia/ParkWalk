@@ -25,36 +25,61 @@ export const distance = (lat1, lon1, lat2, lon2, unit) => {
   }
 };
 
-export const sortGeoJSON = async (geoJSON) => {
-  await addDistance(await geoJSON);
+export const sortGeoJSON = (geoJSON) => {
+  addDistance(geoJSON);
+
   const arr = [];
+
   for (let i in geoJSON) {
     arr.push([i, geoJSON[i]]);
   }
-  arr.sort((a, b) =>
-    a[1].properties.distance > b[1].properties.distance ? 1 : -1
-  );
-  return JSON.stringify(arr);
+  arr.sort((a, b) => a[1].properties.distance - b[1].properties.distance);
+  geoJSON = JSON.stringify(arr);
+  return geoJSON;
 };
 
 const addDistance = async (geoJSON) => {
-  let position = await getLocation();
-  console.log(position);
-  await geoJSON.forEach(async (el) => {
-    //
+  let position = {};
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      position = {
+        pos,
+      };
+      await geoJSON.forEach(async (el) => {
+        //
 
-    let d = distance(
-      position.latitude,
-      position.longitude,
+        let d = distance(
+          position.pos.coords.latitude,
+          position.pos.coords.longitude,
 
-      el.geometry.coordinates[1],
-      el.geometry.coordinates[0],
-      "K"
-    );
+          el.geometry.coordinates[1],
+          el.geometry.coordinates[0],
+          "K"
+        );
 
-    //
-    el.properties.distance = d;
-  });
+        //
+        el.properties.distance = d;
+      });
+    });
+  } else {
+    position = await getLocation();
+    console.log(position);
+    await geoJSON.forEach(async (el) => {
+      //
+
+      let d = distance(
+        position.pos.coords.latitude,
+        position.pos.coords.longitude,
+
+        el.geometry.coordinates[0],
+        el.geometry.coordinates[1],
+        "K"
+      );
+
+      //
+      el.properties.distance = d;
+    });
+  }
 };
 
 const getLocation = async () => {

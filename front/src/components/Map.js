@@ -49,7 +49,6 @@ const MapboxGLMap = () => {
           const fetchParks = await fetch("http://localhost:5000/map");
           const geoJSON = await fetchParks.json();
           sortGeoJSON(geoJSON);
-
           markers.push(
             new mapboxgl.Marker()
               .setLngLat([
@@ -76,7 +75,6 @@ const MapboxGLMap = () => {
         if ("geolocation" in navigator) {
           navigator.geolocation.getCurrentPosition(
             (pos) => {
-              console.log(pos);
               setPosition(
                 pos.coords.latitude,
                 pos.coords.longitude,
