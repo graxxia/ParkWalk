@@ -4,7 +4,6 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { sortGeoJSON } from "../utils/mapUtil";
 
 const styles = {
-  display: "flex",
   width: "40vw",
   height: "40vh",
 };
