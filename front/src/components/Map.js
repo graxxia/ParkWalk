@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { distance } from "../utils/mapUtil";
+import { sortGeoJSON } from "../utils/mapUtil";
 
 const styles = {
   width: "40vw",
@@ -24,7 +24,8 @@ const MapboxGLMap = () => {
       });
 
       let markers = [];
-      let position = {};
+      let popups = [];
+
       // get current location
       map.addControl(
         new mapboxgl.GeolocateControl({
@@ -45,38 +46,52 @@ const MapboxGLMap = () => {
         //
 
         let getParks = async (lat, lng, dist) => {
-          let closest = {
-            lat: 0,
-            lng: 0,
-            distance: 100,
-          };
           const fetchParks = await fetch("http://localhost:5000/map");
           const geoJSON = await fetchParks.json();
-
-          await geoJSON.forEach((el) => {
-            let d = distance(
-              position.lat,
-              position.lng,
-              el.geometry.coordinates[1],
-              el.geometry.coordinates[0],
-              "K"
-            );
-            if (d < closest.distance) {
-              closest = {
-                lat: el.geometry.coordinates[1],
-                lng: el.geometry.coordinates[0],
-                distance: d,
-              };
-            }
-          });
-
-          console.log(closest);
-
+          sortGeoJSON(geoJSON);
+          console.log(geoJSON[0].properties);
           markers.push(
             new mapboxgl.Marker()
-              .setLngLat([closest.lng, closest.lat])
+              .setLngLat([
+                geoJSON[2].geometry.coordinates[0],
+                geoJSON[2].geometry.coordinates[1],
+              ])
               .addTo(map)
           );
+
+          geoJSON.forEach((el) => {
+            console.log(el.properties);
+            const row = document.getElementById("cardRow");
+            const divCard = document.createElement("div");
+            divCard.className = "col s12 m6";
+            divCard.innerHTML = `<div class="card blue-grey darken-1"> <div class="card-content white-text">
+            <span class="card-title"> ${el.properties.name} </span> ${el.properties.PARK_TYPE} <br/> ${el.properties.distance} </div> </div>`;
+            divCard.addEventListener("click", (ev) => {
+              for (let i = 0; i < markers.length - 1; ++i) {
+                markers[i + 1].remove();
+              }
+
+              popups.push(
+                new mapboxgl.Popup({ closeOnClick: true })
+                  .setLngLat([
+                    el.geometry.coordinates[0],
+                    el.geometry.coordinates[1],
+                  ])
+                  .setHTML(`<p> ${el.properties.name}</p>`)
+                  .addTo(map)
+              );
+
+              markers.push(
+                new mapboxgl.Marker()
+                  .setLngLat([
+                    el.geometry.coordinates[0],
+                    el.geometry.coordinates[1],
+                  ])
+                  .addTo(map)
+              );
+            });
+            row.appendChild(divCard);
+          });
         };
 
         let backupGeoLocate = async () => {
@@ -85,18 +100,22 @@ const MapboxGLMap = () => {
           setPosition(data.latitude, data.longitude, 100);
         };
 
-        let setPosition = (lat, lng, acc) => {
-          position = { lat: lat, lng: lng };
+        let setPosition = async (lat, lng, acc) => {
           map.setCenter([lng, lat]);
           //map.setZoom(zoom);
           markers.push(new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map));
-          getParks();
+          popups.push(
+            new mapboxgl.Popup({ closeOnClick: true })
+              .setLngLat([lng, lat])
+              .setHTML(`<p>You!</p>`)
+              .addTo(map)
+          );
+          await getParks();
         };
 
         if ("geolocation" in navigator) {
           navigator.geolocation.getCurrentPosition(
             (pos) => {
-              console.log(pos);
               setPosition(
                 pos.coords.latitude,
                 pos.coords.longitude,

@@ -6,7 +6,7 @@ import history from "../history";
 import Navigation from "../components/Navigation";
 import Parallax from "../components/Parallax";
 import Feed from "../components/Feed";
-import Parks from "./Park";
+import Parks from "./Parks";
 
 import Contact from "./Contact";
 import About from "./About";
