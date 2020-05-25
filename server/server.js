@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const app = express();
 const port = 5000;
+const dbConn = require("./database/db");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -23,7 +24,7 @@ app.get("/geo/", async (req, res) => {
 });
 
 app.get("/map/", async (req, res) => {
-  let park = await axios.get(
+  const park = await axios.get(
     "https://maps.ottawa.ca/arcgis/rest/services/Parks_Inventory/MapServer/24/query?where=1%3D1&outFields=NAME,PARK_TYPE,LATITUDE,LONGITUDE&returnGeometry=false&returnDistinctValues=true&outSR=4326&f=json"
   );
 
@@ -45,7 +46,8 @@ app.get("/map/", async (req, res) => {
 
     geoJSON.push(geoFragment);
   });
-  var uniq = [...new Set(geoJSON)];
+  const uniq = [...new Set(geoJSON)];
+
   res.send(uniq);
 });
 
@@ -82,6 +84,16 @@ app.get("/parksOttawa", (req, res) => {
   ];
 
   res.json(parksOttawa);
+});
+
+app.post("/post-park-request", async (req, res) => {
+  const conn = await dbConn.getConnection();
+  const response = conn.query(
+    "INSERT INTO `parkwalk`.`requests` (`parkName`, `distance`) VALUES ('?', '?')",
+    [req.params.name, req.params.distance]
+  );
+  await conn.end();
+  res.sendStatus(200);
 });
 
 app.listen(port, () => {

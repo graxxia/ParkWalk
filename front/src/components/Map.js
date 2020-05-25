@@ -49,7 +49,7 @@ const MapboxGLMap = () => {
           const fetchParks = await fetch("http://localhost:5000/map");
           const geoJSON = await fetchParks.json();
           sortGeoJSON(geoJSON);
-          console.log(geoJSON[0].properties);
+
           markers.push(
             new mapboxgl.Marker()
               .setLngLat([
@@ -89,6 +89,17 @@ const MapboxGLMap = () => {
                   ])
                   .addTo(map)
               );
+              fetch("localhost:5000/post-park-request", {
+                method: "POST",
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  firstParam: el.properties.name,
+                  secondParam: el.properties.distance,
+                }),
+              });
             });
             row.appendChild(divCard);
           });
