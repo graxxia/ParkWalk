@@ -48,6 +48,7 @@ const MapboxGLMap = () => {
           const fetchParks = await fetch("http://localhost:5000/map");
           const geoJSON = await fetchParks.json();
           sortGeoJSON(geoJSON);
+          console.log(geoJSON[0].properties);
           markers.push(
             new mapboxgl.Marker()
               .setLngLat([
@@ -56,6 +57,26 @@ const MapboxGLMap = () => {
               ])
               .addTo(map)
           );
+          geoJSON.forEach((el) => {
+            console.log(el.properties);
+            const row = document.getElementById("cardRow");
+            const divCard = document.createElement("div");
+            divCard.className = "col s12 m6";
+            divCard.innerHTML = `<div class="card blue-grey darken-1"> <div class="card-content white-text">
+            <span class="card-title"> ${el.properties.name} </span> ${el.properties.PARK_TYPE} <br/> ${el.properties.distance} </div> </div>`;
+            divCard.addEventListener("click", (ev) => {
+              markers.length = 1;
+              markers.push(
+                new mapboxgl.Marker()
+                  .setLngLat([
+                    el.geometry.coordinates[0],
+                    el.geometry.coordinates[1],
+                  ])
+                  .addTo(map)
+              );
+            });
+            row.appendChild(divCard);
+          });
         };
 
         let backupGeoLocate = async () => {
@@ -64,11 +85,11 @@ const MapboxGLMap = () => {
           setPosition(data.latitude, data.longitude, 100);
         };
 
-        let setPosition = (lat, lng, acc) => {
+        let setPosition = async (lat, lng, acc) => {
           map.setCenter([lng, lat]);
           //map.setZoom(zoom);
           markers.push(new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map));
-          getParks();
+          await getParks();
         };
 
         if ("geolocation" in navigator) {
