@@ -42,38 +42,49 @@ class App extends Component {
           <nav className="white" role="navigation">
             <Navigation />
           </nav>
-          <div className="container">
-            <div className="row center">
-              <img
-                src={LogoParkWalk}
-                className="brand-logo black-text"
-                width="300
-                  px"
-                alt="un lugar en Ottawa"
-              ></img>
-            </div>
 
-            <Switch>
-              <Route path="/parks" component={Parks} />
-              <Route path="/contact" component={Contact} />
-              <Route path="/about" component={About} />
-              <Route
-                exact
-                path="/"
-                render={(props) => (
-                  <React.StrictMode>
-                    {" "}
-                    <Parallax title={this.state.parallaxTitle} />
+          <div className="row center">
+            <img
+              src={LogoParkWalk}
+              className="brand-logo black-text"
+              width="300
+                  px"
+              alt="un lugar en Ottawa"
+            ></img>
+          </div>
+
+          <Switch>
+            <Route path="/parks" component={Parks} />
+            <Route path="/contact" component={Contact} />
+            <Route path="/about" component={About} />
+            <Route
+              exact
+              path="/"
+              render={(props) => (
+                <React.StrictMode>
+                  {" "}
+                  <Parallax title={this.state.parallaxTitle} />
+                  <div className="container">
+                    <div className="row center">
+                      <h3>
+                        {" "}
+                        Find the ideal recreation place for you and your family
+                      </h3>
+                      <div className="icon light-green-text text-darken-3">
+                        <i className="material-icons">filter_hdr</i>
+                      </div>
+                    </div>
+
                     <Feed feeds={this.state.feeds} />
-                  </React.StrictMode>
-                )}
-              />
-              />
-            </Switch>
-            <div className="container">
-              <div className="footer header center">
-                <p>&copy; {this.state.name}</p>
-              </div>
+                  </div>
+                </React.StrictMode>
+              )}
+            />
+            />
+          </Switch>
+          <div className="container">
+            <div className="footer header center">
+              <p>&copy; {this.state.name}</p>
             </div>
           </div>
         </Router>

@@ -19,6 +19,10 @@ a {
   font-size: 48px;
 }
 
+.material-icons.md-25 {
+  font-size: 25px;
+}
+
 p {
   line-height: 2rem;
 }
@@ -28,7 +32,7 @@ p {
 }
 
 .parallax-container {
-  min-height: 380px;
+  min-height: 500px;
   line-height: 0;
   height: auto;
   color: rgba(255, 255, 255, 0.9);
