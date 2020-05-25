@@ -24,6 +24,7 @@ const MapboxGLMap = () => {
       });
 
       let markers = [];
+      let popups = [];
 
       // get current location
       map.addControl(
@@ -57,6 +58,7 @@ const MapboxGLMap = () => {
               ])
               .addTo(map)
           );
+
           geoJSON.forEach((el) => {
             console.log(el.properties);
             const row = document.getElementById("cardRow");
@@ -65,7 +67,20 @@ const MapboxGLMap = () => {
             divCard.innerHTML = `<div class="card blue-grey darken-1"> <div class="card-content white-text">
             <span class="card-title"> ${el.properties.name} </span> ${el.properties.PARK_TYPE} <br/> ${el.properties.distance} </div> </div>`;
             divCard.addEventListener("click", (ev) => {
-              markers.length = 1;
+              for (let i = 0; i < markers.length - 1; ++i) {
+                markers[i + 1].remove();
+              }
+
+              popups.push(
+                new mapboxgl.Popup({ closeOnClick: true })
+                  .setLngLat([
+                    el.geometry.coordinates[0],
+                    el.geometry.coordinates[1],
+                  ])
+                  .setHTML(`<p> ${el.properties.name}</p>`)
+                  .addTo(map)
+              );
+
               markers.push(
                 new mapboxgl.Marker()
                   .setLngLat([
@@ -89,6 +104,12 @@ const MapboxGLMap = () => {
           map.setCenter([lng, lat]);
           //map.setZoom(zoom);
           markers.push(new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map));
+          popups.push(
+            new mapboxgl.Popup({ closeOnClick: true })
+              .setLngLat([lng, lat])
+              .setHTML(`<p>You!</p>`)
+              .addTo(map)
+          );
           await getParks();
         };
 
