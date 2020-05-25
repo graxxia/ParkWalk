@@ -51,6 +51,14 @@ app.get("/map/", async (req, res) => {
   res.send(uniq);
 });
 
+app.get("/parking/", async (req, res) => {
+  let parking = await axios.get(
+    "https://maps.ottawa.ca/arcgis/rest/services/Parks_Inventory/MapServer/14/query?where=1%3D1&outFields=*&outSR=4326&f=json"
+  );
+  res.contentType("text/xml");
+  res.send(parking.data);
+});
+
 app.get("/parksOttawa", (req, res) => {
   let parksOttawa = [
     {
